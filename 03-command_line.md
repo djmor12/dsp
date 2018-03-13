@@ -20,22 +20,27 @@ Here's a list of items with which you should be familiar:
 
 Make a cheat sheet for yourself: a list of at least **ten** commands and what they do.  (Use the 8 items above and add a couple of your own.)  
 
-> > REPLACE THIS TEXT WITH YOUR RESPONSE
+pwd - show current working directory path
+mkdir[options]<path> - creating a directory
+rm [options] <path> - deleting a directory, use -r if the directory contains other files
+touch[options]<path> creating a file using `touch` command
+rm <path> -  deleting a file
+mv <source path> <new path> - renaming a file
+ls -a -  listing hidden files
+mv <source path> <new path> - copying a file from one directory to another
 
 ---
 
 ### Q2.  List Files in Unix   
 
 What do the following commands do:  
-`ls`  
-`ls -a`  
-`ls -l`  
-`ls -lh`  
-`ls -lah`  
-`ls -t`  
-`ls -Glp`  
-
-> > REPLACE THIS TEXT WITH YOUR RESPONSE
+`ls`  lists all non-hidden files in current directory
+`ls -a`  lists all files in current directory
+`ls -l`  displays long list including a file size count, does not include hidden files
+`ls -lh`  adds unit suffixs to file size, does not include hiddena files
+`ls -lah`  lists all files with file sizes suffixs
+`ls -t`   sort by most recently modified to last modified
+`ls -Glp`  creates a colorized long list that adds a '/' to a file name if it is a directory
 
 ---
 
@@ -43,7 +48,11 @@ What do the following commands do:
 
 Explore these other [ls options](http://www.techonthenet.com/unix/basic/ls.php) and pick 5 of your favorites:
 
-> > REPLACE THIS TEXT WITH YOUR RESPONSE
+**-F** because it flags file names 
+**-c** because it shows files based on timestamp
+**-d** because it narrows down the list to directory file names
+**-a** because it returns all items in a directory
+**-R** returns subdirectories as well
 
 ---
 
