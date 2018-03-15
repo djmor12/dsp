@@ -60,7 +60,6 @@ Explore these other [ls options](http://www.techonthenet.com/unix/basic/ls.php) 
 
 What does `xargs` do? Give an example of how to use it.
 
-> > REPLACE THIS TEXT WITH YOUR RESPONSE
-
+xargs takes the STDIN and executes a command over it.  When combined with the find command, we can search for certain files and execute a command over the specific files using xargs (such as removing or renaming them)
  
 
