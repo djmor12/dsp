@@ -101,13 +101,126 @@ The effect size is -0.069 deviations.  Compared to pregnency length, the effect 
 ### Q2. [Think Stats Chapter 3 Exercise 1](statistics/3-1-actual_biased.md) (actual vs. biased)
 This problem presents a robust example of actual vs biased data.  As a data scientist, it will be important to examine not only the data that is available, but also the data that may be missing but highly relevant.  You will see how the absence of this relevant data will bias a dataset, its distribution, and ultimately, its statistical interpretation.
 
+The following is the Python code for the exercise.  The mean of the actual distribution is 1.024. The mean for the biased 2.403. The difference in means was created by the absence of respondents in households with 0 kids for the biased mean.
+```Python
+import nsfg
+import matplotlib.pyplot as plt
+
+resp = nsfg.ReadFemResp()
+num_kd = resp.numkdhh
+act_dist = {}
+act_mean = num_kd.mean()
+n1 = len(num_kd)
+for x in num_kd:
+    if x in act_dist:
+        act_dist[x] += 1
+    else:
+        act_dist[x] = 1
+print(act_dist)
+bias_dist = {}
+sum2=0
+n2=0
+counter =0
+x1 = []
+s_s = n1 - act_dist[0]
+for x in act_dist:
+    n2 = act_dist[x]*x
+    bias_dist[x] = n2
+    sum2+=(n2*x)
+    counter += n2
+    x1.append(x)
+bias_mean= sum2/counter
+
+
+sum1=0
+y1 = []
+y2 = []
+x1 = sorted(x1)
+for x in x1:
+    act_dist[x] = act_dist[x]/n1
+    bias_dist[x] = bias_dist[x]/counter
+    y1.append(act_dist[x])
+    y2.append(bias_dist[x])
+
+print('The actual mean is: ', act_mean, 'The biased mean is: ', bias_mean)
+
+plt.step(x1, y1, 'r--', x1, y2, 'g--')
+plt.xlim([-1,6])
+plt.show()
+```
+
 ### Q3. [Think Stats Chapter 4 Exercise 2](statistics/4-2-random_dist.md) (random distribution)  
 This questions asks you to examine the function that produces random numbers.  Is it really random?  A good way to test that is to examine the pmf and cdf of the list of random numbers and visualize the distribution.  If you're not sure what pmf is, read more about it in Chapter 3.  
+
+The distribution of PMFs based on the random numbers generated turned into a flat line because there were too may different values to show distinctions between the same values.  The CDF shows that there were some repeat values, but for the most part, the distribution is uniform.
+
+```Python
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+
+rand = []
+rand = [random.random() for q in range(1000)]
+rand.sort()
+
+cdf = []
+pmf = {}
+def  CDF(val, ser):
+    counter = 0
+    for x in ser:
+        if x <= val:
+            counter+=1
+    prob = counter / len(ser)
+    return prob
+def PMF(ser):
+    pmf_list = []
+    for x in ser:
+        if x in pmf:
+            pmf[x] +=1
+        else:
+            pmf[x] = 1
+    for q in ser:
+        pmf_list.append(pmf[q]/len(ser))
+    return pmf_list
+
+for t in rand:
+    cdf.append(CDF(t, rand))
+pmf1 = []
+pmf1 = PMF(rand)
+
+print(cdf)
+print(pmf1)
+plt.subplot(2,1,1)
+plt.step(rand, cdf, 'r--')
+plt.ylabel('CDF')
+
+plt.subplot(2,1,2)
+plt.step(rand, pmf1, 'g--')
+plt.xlabel('Random Value')
+plt.ylabel('PMF')
+plt.show()
+```
+
 
 ### Q4. [Think Stats Chapter 5 Exercise 1](statistics/5-1-blue_men.md) (normal distribution of blue men)
 This is a classic example of hypothesis testing using the normal distribution.  The effect size used here is the Z-statistic. 
 
+The amount of men in the respondents that meet the criteria of being between 5'10" and 6'1" is 34.2%.
 
+```Python
+import scipy.stats
+#Constructing frozen variable
+mu = 178
+sigma = 7.7
+dist = scipy.stats.norm(loc=mu, scale=sigma)
+type(dist)
+
+#finding percent of respondents between 5'10" and 6'1"
+cm1 = 70*2.54
+cm2 = 73*2.54 
+per = dist.cdf(cm2)-dist.cdf(cm1)
+print(per*100)
+```
 
 ### Q5. Bayesian (Elvis Presley twin) 
 
@@ -115,14 +228,15 @@ Bayes' Theorem is an important tool in understanding what we really know, given 
 
 Elvis Presley had a twin brother who died at birth.  What is the probability that Elvis was an identical twin? Assume we observe the following probabilities in the population: fraternal twin is 1/125 and identical twin is 1/300.  
 
->> REPLACE THIS TEXT WITH YOUR RESPONSE
+The probability Elvis was an identical twin is 0.294.  This was calculated using the bayesian theorem.  P(A) = 17/1500, P(B) = 1/300, and the P(A|B) = 1 because we know that he had a twin brother.
 
 ---
 
 ### Q6. Bayesian &amp; Frequentist Comparison  
 How do frequentist and Bayesian statistics compare?
 
->> REPLACE THIS TEXT WITH YOUR RESPONSE
+Frequentist stats use an experienment theoretically repeated a fixed amount of times.  Depenedent on the result of these experiments.
+Bayesian stats provide tools to update the evidence with new data, making it less dependent on the results of repeated experiments.
 
 ---
 
